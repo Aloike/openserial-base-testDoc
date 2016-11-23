@@ -186,6 +186,11 @@ void    CMainWindow::on_menuOptions_aboutToShow(void)
 
     /* ********** */
 
+    p_menuOptions->addAction( QIcon("qrc:/icons/config"),
+                              tr("Configuration"),
+                              this,
+                              SLOT(on_menuOptions_actionConfiguration()) );
+
 //    p_menuOptions->addMenu( this->_gbConsole->menu() );
 
 //    p_menuOptions->addSeparator();
@@ -211,6 +216,14 @@ void    CMainWindow::on_menuOptions_aboutToShow(void)
                                                       qApp, SLOT(quit()) );
     p_actionExit->setIcon( QIcon( ":/icons/quit" ) );
     p_actionExit->setIconVisibleInMenu( true );
+}
+
+/* ########################################################################## */
+/* ########################################################################## */
+
+void    CMainWindow::on_menuOptions_actionConfiguration(void)
+{
+
 }
 
 /* ########################################################################## */
