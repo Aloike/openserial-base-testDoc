@@ -13,7 +13,8 @@
 CInterfaceSerial::CInterfaceSerial(QObject *argParent)
     :   QSerialPort( argParent )
 {
-
+    connect( this, SIGNAL(readyRead()),
+             this, SLOT(on_this_readyRead()) );
 }
 
 /* ########################################################################## */
@@ -24,6 +25,27 @@ void    CInterfaceSerial::close(void)
     QSerialPort::close();
 
     emit this->connectStateChanged( this->isOpen() );
+}
+
+/* ########################################################################## */
+/* ########################################################################## */
+
+void    CInterfaceSerial::on_this_readyRead(void)
+{
+    QByteArray  lReceivedData;
+
+    while( ! this->atEnd() )
+    {
+        if( lReceivedData.count() >= 200 )
+        {
+            emit this->dataReceived( lReceivedData );
+            lReceivedData.clear();
+        }
+
+        lReceivedData.append( this->readAll() );
+    }
+
+    emit this->dataReceived( lReceivedData );
 }
 
 /* ########################################################################## */
@@ -103,6 +125,31 @@ QStringList CInterfaceSerial::portsAvailable(void)
     {
         retVal.append( lPortInfo.systemLocation() );
     }
+
+    return retVal;
+}
+
+/* ########################################################################## */
+/* ########################################################################## */
+
+qint64      CInterfaceSerial::sendData(const QByteArray &argData)
+{
+    qint64  retVal  = this->write( argData );
+
+
+    if( retVal == argData.count() )
+    {
+        emit this->dataSent( argData );
+    }
+    else if( retVal > 0 )
+    {
+        emit this->dataSent( argData.left( retVal ) );
+    }
+    else
+    {
+        /* An error occured / no data has been emitted */
+    }
+
 
     return retVal;
 }

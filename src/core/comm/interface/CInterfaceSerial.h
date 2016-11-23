@@ -27,11 +27,19 @@ public:
     bool    setStopBits(StopBits stopBits);
     bool    setFlowControl(FlowControl flowControl);
 
+    qint64  sendData(const QByteArray& argData);
+
 
 
 protected:
 
     bool    open(OpenMode mode);
+
+
+
+private slots:
+
+    void    on_this_readyRead(void);
 
 
 
