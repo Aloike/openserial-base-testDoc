@@ -6,6 +6,7 @@
 #include <QMessageBox>
 
 #include "core/comm/interface/CInterfaceSerialSingleton.h"
+#include "ui/configuration/CDialogConfig.h"
 #include "ui/console/CConsole.h"
 #include "ui/toolbars/CToolBarSerialPortConfig.h"
 #include "ui/toolbars/CToolBarSerialPortStatus.h"
@@ -186,7 +187,7 @@ void    CMainWindow::on_menuOptions_aboutToShow(void)
 
     /* ********** */
 
-    p_menuOptions->addAction( QIcon("qrc:/icons/config"),
+    p_menuOptions->addAction( QIcon(":/icons/config"),
                               tr("Configuration"),
                               this,
                               SLOT(on_menuOptions_actionConfiguration()) );
@@ -223,7 +224,9 @@ void    CMainWindow::on_menuOptions_aboutToShow(void)
 
 void    CMainWindow::on_menuOptions_actionConfiguration(void)
 {
+    CDialogConfig   lDialogConfig(this);
 
+    lDialogConfig.exec();
 }
 
 /* ########################################################################## */
