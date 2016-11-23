@@ -8,6 +8,7 @@
 
 CConsole::CConsole(QWidget* argParent)
     :   QPlainTextEdit(argParent)
+    ,   m_printTx( true )
 {
     CInterfaceSerial*   p_interfaceSerial
             = CInterfaceSerialSingleton::instance();
@@ -29,6 +30,9 @@ CConsole::CConsole(QWidget* argParent)
 
     connect( p_interfaceSerial, SIGNAL(dataReceived(QByteArray)),
              this, SLOT(on_serialPort_dataReceived(QByteArray)) );
+
+    connect( p_interfaceSerial, SIGNAL(dataSent(QByteArray)),
+             this, SLOT(on_serialPort_dataSent(QByteArray)) );
 }
 
 /* ########################################################################## */
@@ -82,6 +86,33 @@ void    CConsole::on_serialPort_connectStateChanged(const bool &argIsOpen)
 void    CConsole::on_serialPort_dataReceived(const QByteArray &argReceivedData)
 {
     this->appendData( argReceivedData );
+}
+
+/* ########################################################################## */
+/* ########################################################################## */
+
+void    CConsole::on_serialPort_dataSent(const QByteArray &argReceivedData)
+{
+    if( this->printTxEnabled() )
+    {
+        this->appendData( argReceivedData );
+    }
+}
+
+/* ########################################################################## */
+/* ########################################################################## */
+
+bool    CConsole::printTxEnabled(void) const
+{
+    return this->m_printTx;
+}
+
+/* ########################################################################## */
+/* ########################################################################## */
+
+void    CConsole::setPrintTxEnabled(const bool &argEnabled)
+{
+    this->m_printTx = argEnabled;
 }
 
 /* ########################################################################## */

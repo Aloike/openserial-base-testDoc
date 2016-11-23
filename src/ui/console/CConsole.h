@@ -19,6 +19,10 @@ public:
     void    appendData(const QByteArray& argdata);
 
 
+    bool    printTxEnabled(void) const;
+    void    setPrintTxEnabled(const bool& argEnabled);
+
+
 
 protected:
 
@@ -36,6 +40,15 @@ private slots:
 
     void    on_serialPort_connectStateChanged(const bool& argIsOpen);
     void    on_serialPort_dataReceived(const QByteArray& argReceivedData);
+    void    on_serialPort_dataSent(const QByteArray& argReceivedData);
+
+
+
+public:
+protected:
+private:
+
+    bool    m_printTx;
 
 
 
