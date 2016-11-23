@@ -39,6 +39,8 @@ signals:
 
     void    connectStateChanged(const bool& argIsOpen);
     void    errorOccured(const QString& argErrorString);
+    void    dataReceived(const QByteArray& argReceivedData);
+    void    dataSent(const QByteArray& argEmittedData);
 
 
 
