@@ -226,6 +226,8 @@ void    CMainWindow::on_menuOptions_actionConfiguration(void)
 {
     CDialogConfig   lDialogConfig(this);
 
+    lDialogConfig.setPointerConsole( this->m_console );
+
     lDialogConfig.exec();
 }
 
