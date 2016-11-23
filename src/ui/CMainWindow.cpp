@@ -6,6 +6,7 @@
 #include <QMessageBox>
 
 #include "core/comm/interface/CInterfaceSerialSingleton.h"
+#include "ui/console/CConsole.h"
 #include "ui/toolbars/CToolBarSerialPortConfig.h"
 #include "ui/toolbars/CToolBarSerialPortStatus.h"
 
@@ -17,6 +18,7 @@
 
 CMainWindow::CMainWindow(QWidget *parent)
     :   QMainWindow(parent)
+    ,   m_console( new CConsole( this ) )
 {
     this->setWindowIcon(QIcon(":/icons/app"));
     this->setWindowIconText(QCoreApplication::applicationName());
@@ -67,6 +69,8 @@ void    CMainWindow::_createUi(void)
     this->addToolBar( new CToolBarSerialPortStatus( this ) );
 
     this->setStatusBar( new CMainWindowStatusBar(this) );
+
+    this->setCentralWidget( this->m_console );
 }
 
 /* ########################################################################## */

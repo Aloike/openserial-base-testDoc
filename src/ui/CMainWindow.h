@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+class   CConsole;
+
 
 class CMainWindow : public QMainWindow
 {
@@ -40,6 +42,8 @@ private slots:
 public:
 protected:
 private:
+
+    CConsole    *m_console;
 
 
 
