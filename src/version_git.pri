@@ -31,7 +31,7 @@ VERSION_PATCH   = 0
 # VERSION_OUTPUT_FILE points to the destination file where the constants will
 #be written
 
-VERSION_OUTPUT_FILE = src/Version.h
+VERSION_OUTPUT_FILE=src/Version.h
 
 ###############################################################################
 ###############################################################################
@@ -78,6 +78,41 @@ target_gitrev.commands  +=  (echo \"\\n\\043endif /*< VERSION_H */\" >> $$VERSIO
 #&& echo '#define __VERSION_H__' >> Version.h    \
 #&& echo '#endif'    >> Version.h
 
+
+# Add the created target to the qmake ones.
+QMAKE_EXTRA_TARGETS += target_gitrev
+PRE_TARGETDEPS      += target_gitrev
+
+}else:win32{
+
+target_gitrev.target    =   target_gitrev
+
+# To erase the old version file
+target_gitrev.commands  =   (echo "/* Auto-generated file ! */" > $$VERSION_OUTPUT_FILE )
+target_gitrev.commands  +=  &&  (echo "$${LITERAL_HASH}ifndef VERSION_H" >> $$VERSION_OUTPUT_FILE )
+target_gitrev.commands  +=  &&  (echo "$${LITERAL_HASH}define VERSION_H" >> $$VERSION_OUTPUT_FILE )
+target_gitrev.commands  +=  &&  (echo.>>$$VERSION_OUTPUT_FILE)
+target_gitrev.commands  +=  &&  (echo "$${LITERAL_HASH}include ^<QString^>">>$$VERSION_OUTPUT_FILE)
+target_gitrev.commands  +=  &&  (echo. >>$$VERSION_OUTPUT_FILE)
+
+# The major version number
+target_gitrev.commands  +=  &&  (echo "const QString VERSION_MAJOR = \"$$VERSION_MAJOR\";">>$$VERSION_OUTPUT_FILE)
+
+## The minor version number
+target_gitrev.commands  +=  &&  (echo "const QString VERSION_MINOR = \"$$VERSION_MINOR\";">>$$VERSION_OUTPUT_FILE)
+
+## The patch version number
+target_gitrev.commands  +=  &&  (echo "const QString VERSION_PATCH = \"$$VERSION_PATCH\";">>$$VERSION_OUTPUT_FILE)
+
+## The GIT version
+target_gitrev.commands  +=  &&  (echo "const QString VERSION_CVS = \"$(shell git --git-dir $$PWD/../.git --work-tree $$PWD../ describe --long --tags --always --dirty)\";">>$$VERSION_OUTPUT_FILE)
+
+## The Build date
+target_gitrev.commands  +=  &&  (echo "const QString VERSION_BUILD = \"$(shell echo %date:~6,4%%date:~3,2%%date:~0,2%)$(shell cmd /v:on /c \"set lTime=%time: =0% && echo !lTime:~0,2!!lTime:~3,2!!lTime:~6,2!\")\";">>$$VERSION_OUTPUT_FILE)
+
+
+target_gitrev.commands  +=  &&  (echo. >>$$VERSION_OUTPUT_FILE)
+target_gitrev.commands  +=  &&  (echo "$${LITERAL_HASH}endif /*^< VERSION_H */" >> $$VERSION_OUTPUT_FILE )
 
 # Add the created target to the qmake ones.
 QMAKE_EXTRA_TARGETS += target_gitrev
