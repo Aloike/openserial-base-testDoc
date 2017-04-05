@@ -31,7 +31,7 @@ VERSION_PATCH   = 0
 # VERSION_OUTPUT_FILE points to the destination file where the constants will
 #be written
 
-VERSION_OUTPUT_FILE=src/Version.h
+VERSION_OUTPUT_FILE=$$PWD/Version.h
 
 ###############################################################################
 ###############################################################################
