@@ -27,6 +27,7 @@ INCLUDEPATH += $$PWD/
 
 HEADERS += core/comm/interface/CInterfaceSerial.h
 HEADERS += core/comm/interface/CInterfaceSerialSingleton.h
+HEADERS += core/trace/trace.h
 HEADERS += ui/CMainWindow.h
 HEADERS += ui/CMainWindowStatusBar.h
 HEADERS += ui/common/CComboBox.h
