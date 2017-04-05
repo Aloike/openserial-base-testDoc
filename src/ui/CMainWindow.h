@@ -28,18 +28,12 @@ private:
     void    _createUi(void);
     void    _createUi_menus(void);
 
-
-
-public slots:
-protected slots:
-private slots:
-
-    void    on_actionAboutThisApp_triggered(void);
-    void    on_menuHelp_aboutToShow(void);
-    void    on_menuOptions_aboutToShow(void);
-    void    on_menuOptions_actionConfiguration(void);
-    void    on_menuView_aboutToShow(void);
-    void    on_serialPort_errorOccured(const QString& argErrorString);
+    Q_SLOT  void    on_actionAboutThisApp_triggered(void);
+    Q_SLOT  void    on_menuHelp_aboutToShow(void);
+    Q_SLOT  void    on_menuOptions_aboutToShow(void);
+    Q_SLOT  void    on_menuOptions_actionConfiguration(void);
+    Q_SLOT  void    on_menuView_aboutToShow(void);
+    Q_SLOT  void    on_serialPort_errorOccured(const QString& argErrorString);
 
 
 
