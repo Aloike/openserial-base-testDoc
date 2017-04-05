@@ -19,6 +19,11 @@ include( $$PWD/version_git.pri )
 
 
 
+DEFINES +=  TRACE_CPluginContainer_DEBUG
+DEFINES +=  TRACE_CPluginsSearchPathsManager_DEBUG
+
+
+
 # ##############################################################################
 ## Git Subtrees includes
 # ##############################################################################
@@ -36,6 +41,9 @@ INCLUDEPATH += $$PWD/
 
 HEADERS += core/comm/interface/CInterfaceSerial.h
 HEADERS += core/comm/interface/CInterfaceSerialSingleton.h
+HEADERS += core/plugins/management/CPluginContainer.h
+HEADERS += core/plugins/management/CPluginsManagerSingleton.h
+HEADERS += core/plugins/management/CPluginsSearchPathsManager.h
 HEADERS += core/trace/trace.h
 HEADERS += ui/CMainWindow.h
 HEADERS += ui/CMainWindowStatusBar.h
@@ -55,6 +63,9 @@ RESOURCES   += ../rsrc/resources.qrc
 
 SOURCES += core/comm/interface/CInterfaceSerial.cpp
 SOURCES += core/comm/interface/CInterfaceSerialSingleton.cpp
+SOURCES += core/plugins/management/CPluginContainer.cpp
+SOURCES += core/plugins/management/CPluginsManagerSingleton.cpp
+SOURCES += core/plugins/management/CPluginsSearchPathsManager.cpp
 SOURCES += main.cpp
 SOURCES += ui/CMainWindow.cpp
 SOURCES += ui/CMainWindowStatusBar.cpp
