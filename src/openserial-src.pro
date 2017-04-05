@@ -20,6 +20,15 @@ include( $$PWD/version_git.pri )
 
 
 # ##############################################################################
+## Git Subtrees includes
+# ##############################################################################
+# Plugins interface
+HEADERS     += core/plugins/interface/COpenserialPluginInterface.h
+INCLUDEPATH += core/plugins/interface/
+
+
+
+# ##############################################################################
 ## Source files
 # ##############################################################################
 INCLUDEPATH += $$PWD/
