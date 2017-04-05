@@ -17,6 +17,11 @@
 /* ########################################################################## */
 /* ########################################################################## */
 
+CMainWindow*    CMainWindow::s_m_instance   = nullptr;
+
+/* ########################################################################## */
+/* ########################################################################## */
+
 CMainWindow::CMainWindow(QWidget *parent)
     :   QMainWindow(parent)
     ,   m_console( new CConsole( this ) )
@@ -97,6 +102,31 @@ void    CMainWindow::_createUi_menus(void)
     QMenu*  p_menuHelp   = this->menuBar()->addMenu( tr("Help") );
     connect( p_menuHelp, SIGNAL(aboutToShow()),
              this, SLOT(on_menuHelp_aboutToShow()) );
+}
+
+/* ########################################################################## */
+/* ########################################################################## */
+
+void    CMainWindow::freeInstance(void)
+{
+    if( CMainWindow::s_m_instance != nullptr )
+    {
+        delete CMainWindow::s_m_instance;
+        CMainWindow::s_m_instance   = nullptr;
+    }
+}
+
+/* ########################################################################## */
+/* ########################################################################## */
+
+CMainWindow*    CMainWindow::getInstance(void)
+{
+    if( CMainWindow::s_m_instance == nullptr )
+    {
+        CMainWindow::s_m_instance   = new CMainWindow;
+    }
+
+    return CMainWindow::s_m_instance;
 }
 
 /* ########################################################################## */

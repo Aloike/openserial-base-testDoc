@@ -39,10 +39,15 @@ int main(int argc, char *argv[])
 
     init_qCoreApplication();
 
-    CMainWindow w;
-    w.show();
 
-    return a.exec();
+    CMainWindow::getInstance()->show();
+
+    int retVal  = a.exec();
+
+    CMainWindow::freeInstance();
+
+
+    return retVal;
 }
 
 /* ########################################################################## */

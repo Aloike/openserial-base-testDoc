@@ -12,13 +12,17 @@ class CMainWindow : public QMainWindow
 
 public:
 
-    CMainWindow(QWidget *parent = 0);
-    ~CMainWindow();
+    static CMainWindow* getInstance(void);
+    static void         freeInstance(void);
 
 
 
 protected:
 private:
+
+    CMainWindow(QWidget *parent = 0);
+    ~CMainWindow();
+
 
     void    _createConnections(void);
     void    _createUi(void);
@@ -43,6 +47,8 @@ private slots:
 public:
 protected:
 private:
+
+    static  CMainWindow*    s_m_instance;
 
     CConsole    *m_console;
 
