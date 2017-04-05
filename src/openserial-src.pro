@@ -19,6 +19,7 @@ include( $$PWD/version_git.pri )
 
 
 
+DEFINES +=  TRACE_CDialogPluginsManager_DEBUG
 DEFINES +=  TRACE_CPluginContainer_DEBUG
 DEFINES +=  TRACE_CPluginsSearchPathsManager_DEBUG
 
@@ -52,6 +53,7 @@ HEADERS += ui/common/CLed.h
 HEADERS += ui/configuration/CDialogConfig.h
 HEADERS += ui/configuration/CGroupBoxConfigConsole.h
 HEADERS += ui/console/CConsole.h
+HEADERS += ui/menuPlugins/CDialogPluginsManager.h
 HEADERS += ui/menuPlugins/CMenuPlugins.h
 HEADERS += ui/toolbars/CToolbarAbstract.h
 HEADERS += ui/toolbars/CToolBarSerialPortConfig.h
@@ -74,6 +76,7 @@ SOURCES += ui/common/CLed.cpp
 SOURCES += ui/configuration/CDialogConfig.cpp
 SOURCES += ui/configuration/CGroupBoxConfigConsole.cpp
 SOURCES += ui/console/CConsole.cpp
+SOURCES += ui/menuPlugins/CDialogPluginsManager.cpp
 SOURCES += ui/menuPlugins/CMenuPlugins.cpp
 SOURCES += ui/toolbars/CToolbarAbstract.cpp
 SOURCES += ui/toolbars/CToolBarSerialPortConfig.cpp

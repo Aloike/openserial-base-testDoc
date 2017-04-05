@@ -19,6 +19,7 @@ protected:
 private:
 
     Q_SLOT  void    on_aboutToShow(void);
+    Q_SLOT  void    on_actionManage(void);
 
 
 
