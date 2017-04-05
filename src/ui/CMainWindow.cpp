@@ -12,6 +12,7 @@
 #include "ui/toolbars/CToolBarSerialPortStatus.h"
 
 #include "CMainWindowStatusBar.h"
+#include "menuPlugins/CMenuPlugins.h"
 
 
 /* ########################################################################## */
@@ -89,9 +90,7 @@ void    CMainWindow::_createUi_menus(void)
              this, SLOT(on_menuOptions_aboutToShow()) );
 
 
-    QMenu*  p_menuPlugins   = this->menuBar()->addMenu( tr("Plugins") );
-    connect( p_menuPlugins, SIGNAL(aboutToShow()),
-             this, SLOT(on_menuPlugins_aboutToShow()) );
+    this->menuBar()->addMenu( new CMenuPlugins( this ) );
 
 
     QMenu*  p_menuView  = this->menuBar()->addMenu( tr("View") );
@@ -259,18 +258,6 @@ void    CMainWindow::on_menuOptions_actionConfiguration(void)
     lDialogConfig.setPointerConsole( this->m_console );
 
     lDialogConfig.exec();
-}
-
-/* ########################################################################## */
-/* ########################################################################## */
-
-void    CMainWindow::on_menuPlugins_aboutToShow(void)
-{
-    Q_ASSERT( sender()->inherits( "QMenu" ) );
-    QMenu *p_menuPlugins    = (QMenu*) sender();
-
-
-    p_menuPlugins->clear();
 }
 
 /* ########################################################################## */

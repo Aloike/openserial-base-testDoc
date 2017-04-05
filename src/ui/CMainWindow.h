@@ -38,7 +38,6 @@ private slots:
     void    on_menuHelp_aboutToShow(void);
     void    on_menuOptions_aboutToShow(void);
     void    on_menuOptions_actionConfiguration(void);
-    void    on_menuPlugins_aboutToShow(void);
     void    on_menuView_aboutToShow(void);
     void    on_serialPort_errorOccured(const QString& argErrorString);
 
