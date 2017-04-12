@@ -83,6 +83,16 @@ QString CPluginContainer::description(void) const
 /* ########################################################################## */
 /* ########################################################################## */
 
+QString CPluginContainer::editorName(void) const
+{
+    return this->pluginLoaderShrdPtr().get()->metaData()
+            .value("MetaData").toObject()
+            .value("editor").toString( tr("No editor name provided.") );
+}
+
+/* ########################################################################## */
+/* ########################################################################## */
+
 bool    CPluginContainer::isValid(void) const
 {
     bool    retVal  = true;
@@ -215,6 +225,16 @@ std::shared_ptr<QPluginLoader>
         CPluginContainer::pluginLoaderShrdPtr(void) const
 {
     return this->m_pluginLoaderShrdPtr;
+}
+
+/* ########################################################################## */
+/* ########################################################################## */
+
+QString CPluginContainer::projectURL(void) const
+{
+    return this->pluginLoaderShrdPtr().get()->metaData()
+            .value("MetaData").toObject()
+            .value("projectURL").toString( tr("(No website provided)") );
 }
 
 /* ########################################################################## */

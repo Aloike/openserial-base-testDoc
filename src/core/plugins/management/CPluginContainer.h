@@ -35,6 +35,8 @@ public:
     QString name(void) const;
     QString nameHumanReadable(void) const;
     QString version(void) const;
+    QString editorName(void) const;
+    QString projectURL(void) const;
     QString description(void) const;
 
 
