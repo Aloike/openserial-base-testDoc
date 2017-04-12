@@ -7,6 +7,8 @@ class QHBoxLayout;
 class QPushButton;
 class QTableWidget;
 
+class CGBPluginDetails;
+
 
 class   CDialogPluginsManager
         :   public  QDialog
@@ -95,9 +97,10 @@ private:
     };
 
 
-    QPushButton*    m_pbAccept;
-    QPushButton*    m_pbCancel;
-    QTableWidget*   m_twList;
+    CGBPluginDetails*   m_gbPluginDetails;
+    QPushButton*        m_pbAccept;
+    QPushButton*        m_pbCancel;
+    QTableWidget*       m_twList;
 
 
 

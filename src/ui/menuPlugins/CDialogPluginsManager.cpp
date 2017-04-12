@@ -10,6 +10,8 @@
 
 #include "core/plugins/management/CPluginsManagerSingleton.h"
 
+#include "CGBPluginDetails.h"
+
 /* ########################################################################## */
 /* ########################################################################## */
 /*
@@ -35,6 +37,7 @@
 
 CDialogPluginsManager::CDialogPluginsManager(QWidget *argParentPtr)
     :   QDialog(argParentPtr)
+    ,   m_gbPluginDetails( new CGBPluginDetails( this ) )
     ,   m_pbAccept( new QPushButton( tr( "Accept" ), this ) )
     ,   m_pbCancel( new QPushButton( tr( "Cancel" ), this ) )
     ,   m_twList( new QTableWidget( this ) )
@@ -57,6 +60,9 @@ void    CDialogPluginsManager::_create_connections(void)
 
     connect( this->m_pbCancel, SIGNAL(clicked(bool)),
              this, SLOT(reject()) );
+
+    connect( this->m_twList, SIGNAL(currentCellChanged(int,int,int,int)),
+             this, SLOT(on_m_twList_currentCellChanged(int,int,int,int)) );
 }
 
 /* ########################################################################## */
@@ -64,6 +70,11 @@ void    CDialogPluginsManager::_create_connections(void)
 
 void    CDialogPluginsManager::_create_ui_layout(void)
 {
+    QHBoxLayout*    p_layoutCentral = new QHBoxLayout();
+    p_layoutCentral->addWidget( this->m_twList );
+    p_layoutCentral->addWidget( this->m_gbPluginDetails );
+
+
     QHBoxLayout*    p_layoutButtons = new QHBoxLayout();
     p_layoutButtons->addSpacerItem( new QSpacerItem( 10,10,
                                                      QSizePolicy::Expanding ) );
@@ -72,7 +83,7 @@ void    CDialogPluginsManager::_create_ui_layout(void)
 
 
     QVBoxLayout*    p_layoutMain    = new QVBoxLayout( this );
-    p_layoutMain->addWidget( this->m_twList );
+    p_layoutMain->addLayout( p_layoutCentral );
     p_layoutMain->addLayout( p_layoutButtons );
 
     this->setLayout( p_layoutMain );
@@ -215,6 +226,15 @@ void    CDialogPluginsManager::listPopulate(void)
 
     this->m_twList->setFixedWidth(
             this->m_twList->horizontalHeader()->length() );
+}
+
+/* ########################################################################## */
+/* ########################################################################## */
+
+void    CDialogPluginsManager::on_m_twList_currentCellChanged(int,int,int,int)
+{
+    this->m_gbPluginDetails->setDisplayedPlugin(
+                this->currentlySelectedPluginId() );
 }
 
 /* ########################################################################## */
