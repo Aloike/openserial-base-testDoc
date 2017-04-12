@@ -11,7 +11,6 @@
 #   When at least one build has been done, a file named Version.h (by default)
 #   will appear, containing the generated constants.
 #
-#   @todo add the ifndef/def/endif to the output file?
 ###############################################################################
 
 contains( CONFIG, VERSION_GIT_PRI_INCLUDED ) {
@@ -23,9 +22,10 @@ contains( CONFIG, VERSION_GIT_PRI_INCLUDED ) {
 #   Variables that you may have to edit depending on your project / platform
 ###############################################################################
 
-VERSION_MAJOR   = 0
-VERSION_MINOR   = 0
-VERSION_PATCH   = 0
+VER_MAJ = 0
+VER_MIN = 0
+VER_PAT = 0
+VERSION =$${VER_MAJ}.$${VER_MIN}.$${VER_PAT}
 
 # SVN_REVISION holds what the command "svnversion -n ." return. May depend on
 # your system configuration
@@ -55,15 +55,15 @@ target_gitrev.commands  +=  (echo \"\\043define VERSION_H\\n\" >> $$VERSION_OUTP
 
 # The major version number
 target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
-target_gitrev.commands  +=  echo \'const QString VERSION_MAJOR\(\"$$VERSION_MAJOR\"\);\' >> $$VERSION_OUTPUT_FILE
+target_gitrev.commands  +=  echo \'const QString VERSION_MAJOR\(\"$$VER_MAJ\"\);\' >> $$VERSION_OUTPUT_FILE
 
 # The minor version number
 target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
-target_gitrev.commands  +=  echo \'const QString VERSION_MINOR\(\"$$VERSION_MINOR\"\);\' >> $$VERSION_OUTPUT_FILE
+target_gitrev.commands  +=  echo \'const QString VERSION_MINOR\(\"$$VER_MIN\"\);\' >> $$VERSION_OUTPUT_FILE
 
 # The patch version number
 target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
-target_gitrev.commands  +=  echo \'const QString VERSION_PATCH\(\"$$VERSION_PATCH\"\);\' >> $$VERSION_OUTPUT_FILE
+target_gitrev.commands  +=  echo \'const QString VERSION_PATCH\(\"$$VER_PAT\"\);\' >> $$VERSION_OUTPUT_FILE
 
 # The GIT version
 target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
@@ -100,13 +100,13 @@ target_gitrev.commands  +=  &&  (echo "$${LITERAL_HASH}include ^<QString^>">>$$V
 target_gitrev.commands  +=  &&  (echo. >>$$VERSION_OUTPUT_FILE)
 
 # The major version number
-target_gitrev.commands  +=  &&  (echo "const QString VERSION_MAJOR = \"$$VERSION_MAJOR\";">>$$VERSION_OUTPUT_FILE)
+target_gitrev.commands  +=  &&  (echo "const QString VERSION_MAJOR = \"$$VER_MAJ\";">>$$VERSION_OUTPUT_FILE)
 
 ## The minor version number
-target_gitrev.commands  +=  &&  (echo "const QString VERSION_MINOR = \"$$VERSION_MINOR\";">>$$VERSION_OUTPUT_FILE)
+target_gitrev.commands  +=  &&  (echo "const QString VERSION_MINOR = \"$$VER_MIN\";">>$$VERSION_OUTPUT_FILE)
 
 ## The patch version number
-target_gitrev.commands  +=  &&  (echo "const QString VERSION_PATCH = \"$$VERSION_PATCH\";">>$$VERSION_OUTPUT_FILE)
+target_gitrev.commands  +=  &&  (echo "const QString VERSION_PATCH = \"$$VER_PAT\";">>$$VERSION_OUTPUT_FILE)
 
 ## The GIT version
 target_gitrev.commands  +=  &&  (echo "const QString VERSION_CVS = \"$(shell git --git-dir $$PWD/../.git --work-tree $$PWD../ describe --long --tags --always --dirty)\";">>$$VERSION_OUTPUT_FILE)
