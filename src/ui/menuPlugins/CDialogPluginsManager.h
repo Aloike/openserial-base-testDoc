@@ -24,6 +24,7 @@ private:
 
     void    _create_ui_layout(void);
     void    _create_connections(void);
+    void    _initialize_twList(void);
 
     void        listPopulate(void);
 

@@ -2,6 +2,7 @@
 
 #include <QCheckBox>
 #include <QHBoxLayout>
+#include <QHeaderView>
 #include <QSpacerItem>
 #include <QPushButton>
 #include <QTableWidget>
@@ -40,10 +41,8 @@ CDialogPluginsManager::CDialogPluginsManager(QWidget *argParentPtr)
 {
     this->setWindowTitle( tr( "Plugins manager" ) );
 
-    this->m_twList->setColumnCount( Column::count() );
     this->_create_ui_layout();
-
-    this->listPopulate();
+    this->_initialize_twList();
 
     this->_create_connections();
 }
@@ -77,6 +76,38 @@ void    CDialogPluginsManager::_create_ui_layout(void)
     p_layoutMain->addLayout( p_layoutButtons );
 
     this->setLayout( p_layoutMain );
+}
+
+/* ########################################################################## */
+/* ########################################################################## */
+
+void    CDialogPluginsManager::_initialize_twList(void)
+{
+    this->m_twList->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    this->m_twList->setSelectionBehavior(QAbstractItemView::SelectRows);
+    this->m_twList->setSelectionMode(QAbstractItemView::SingleSelection);
+    this->m_twList->setShowGrid( false );
+    this->m_twList->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+
+
+    /*
+     *  Columns
+     */
+    this->m_twList->setColumnCount( Column::count() );
+    this->m_twList->setColumnHidden( Column::ID, true );
+
+
+    /*
+     *  Headers
+     */
+    this->m_twList->verticalHeader()->setVisible( false );
+
+    this->m_twList->setHorizontalHeaderLabels( Column::names() );
+    this->m_twList->horizontalHeader()
+            ->setSectionResizeMode(QHeaderView::ResizeToContents);;
+
+
+    this->listPopulate();
 }
 
 /* ########################################################################## */
