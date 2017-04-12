@@ -14,6 +14,10 @@
 #   @todo add the ifndef/def/endif to the output file?
 ###############################################################################
 
+contains( CONFIG, VERSION_GIT_PRI_INCLUDED ) {
+#     message( "version_git.pri already included" )
+} else {
+
 ###############################################################################
 ###############################################################################
 #   Variables that you may have to edit depending on your project / platform
@@ -118,3 +122,6 @@ target_gitrev.commands  +=  &&  (echo "$${LITERAL_HASH}endif /*^< VERSION_H */" 
 QMAKE_EXTRA_TARGETS += target_gitrev
 PRE_TARGETDEPS      += target_gitrev
 }
+
+
+}   #<  VERSION_GIT_PRI_INCLUDED
