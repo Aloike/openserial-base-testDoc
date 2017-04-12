@@ -124,6 +124,31 @@ void    CDialogPluginsManager::accept(void)
 /* ########################################################################## */
 /* ########################################################################## */
 
+QString CDialogPluginsManager::currentlySelectedPluginId(void) const
+{
+    QString retVal  = "";
+
+
+    QTableWidgetItem*   p_item
+            = this->m_twList->item( this->m_twList->currentRow(),
+                                    Column::ID );
+
+    if( p_item == 0 )
+    {
+        /* Invalid item */
+    }
+    else
+    {
+        retVal  = p_item->text();
+    }
+
+
+    return retVal;
+}
+
+/* ########################################################################## */
+/* ########################################################################## */
+
 QStringList CDialogPluginsManager::listActivatedPlugins(void) const
 {
     QStringList retVal;

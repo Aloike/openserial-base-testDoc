@@ -30,6 +30,7 @@ private:
 
     QStringList listActivatedPlugins(void) const;
 
+    QString     currentlySelectedPluginId(void) const;
 
 
     Q_SLOT  virtual void    accept();
