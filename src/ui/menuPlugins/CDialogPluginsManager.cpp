@@ -40,7 +40,7 @@ CDialogPluginsManager::CDialogPluginsManager(QWidget *argParentPtr)
 {
     this->setWindowTitle( tr( "Plugins manager" ) );
 
-    this->m_twList->setColumnCount( Column::ColumnsCount );
+    this->m_twList->setColumnCount( Column::count() );
     this->_create_ui_layout();
 
     this->listPopulate();
@@ -152,10 +152,6 @@ void    CDialogPluginsManager::listPopulate(void)
                                  new QTableWidgetItem( lPC.name() ) );
         this->m_twList->setItem( lRow, Column::Version,
                                  new QTableWidgetItem( lPC.version() ) );
-        this->m_twList->setItem( lRow, Column::Description,
-                                 new QTableWidgetItem( lPC.description() ) );
-        this->m_twList->setItem( lRow, Column::Path,
-                                 new QTableWidgetItem( lPC.path() ) );
 
         this->m_twList->setItem( lRow, Column::ID,
                                  new QTableWidgetItem( lKey ) );

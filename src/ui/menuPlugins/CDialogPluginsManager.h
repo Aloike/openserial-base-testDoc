@@ -44,15 +44,52 @@ private:
     {
         enum    EColumnsIndex
         {
-            Activated   = 0,
-            ID,
+            ID          = 0,
+            Activated,
             Name,
             Version,
-            Description,
-            Path,
 
-            ColumnsCount
+            _ColumnsCount
         };
+
+        static int  count(void)
+        {
+            return _ColumnsCount;
+        }
+
+        static QStringList  names(void)
+        {
+            QStringList retVal;
+
+
+            for( int i = 0 ; i < Column::count() ; ++i )
+            {
+                switch( i )
+                {
+                    case    Column::Activated:
+                        retVal.append( tr( "Activated" ) );
+                        break;
+
+                    case    Column::ID:
+                        retVal.append( tr( "ID" ) );
+                        break;
+
+                    case    Column::Name:
+                        retVal.append( tr( "Name" ) );
+                        break;
+
+                    case    Column::Version:
+                        retVal.append( tr( "Version" ) );
+                        break;
+
+                    default:
+                        retVal.append( tr( "[[Unknown column name]]" ) );
+                        break;
+                }
+            }
+
+            return retVal;
+        }
     };
 
 
