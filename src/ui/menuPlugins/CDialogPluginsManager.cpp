@@ -5,7 +5,7 @@
 #include <QHeaderView>
 #include <QSpacerItem>
 #include <QPushButton>
-#include <QTableWidget>
+#include <QTreeWidget>
 #include <QVBoxLayout>
 
 #include "core/plugins/management/CPluginsManagerSingleton.h"
@@ -40,7 +40,7 @@ CDialogPluginsManager::CDialogPluginsManager(QWidget *argParentPtr)
     ,   m_gbPluginDetails( new CGBPluginDetails( this ) )
     ,   m_pbAccept( new QPushButton( tr( "Accept" ), this ) )
     ,   m_pbCancel( new QPushButton( tr( "Cancel" ), this ) )
-    ,   m_twList( new QTableWidget( this ) )
+    ,   m_twList( new QTreeWidget( this ) )
 {
     this->setWindowTitle( tr( "Plugins manager" ) );
 
@@ -61,8 +61,11 @@ void    CDialogPluginsManager::_create_connections(void)
     connect( this->m_pbCancel, SIGNAL(clicked(bool)),
              this, SLOT(reject()) );
 
-    connect( this->m_twList, SIGNAL(currentCellChanged(int,int,int,int)),
-             this, SLOT(on_m_twList_currentCellChanged(int,int,int,int)) );
+    connect( this->m_twList,
+             SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
+             this,
+             SLOT(on_m_twList_currentItemChanged( QTreeWidgetItem*,
+                                                  QTreeWidgetItem* ) ) );
 }
 
 /* ########################################################################## */
@@ -97,7 +100,6 @@ void    CDialogPluginsManager::_initialize_twList(void)
     this->m_twList->setEditTriggers(QAbstractItemView::NoEditTriggers);
     this->m_twList->setSelectionBehavior(QAbstractItemView::SelectRows);
     this->m_twList->setSelectionMode(QAbstractItemView::SingleSelection);
-    this->m_twList->setShowGrid( false );
     this->m_twList->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
 
 
@@ -109,13 +111,9 @@ void    CDialogPluginsManager::_initialize_twList(void)
 
 
     /*
-     *  Headers
+     *  Header
      */
-    this->m_twList->verticalHeader()->setVisible( false );
-
-    this->m_twList->setHorizontalHeaderLabels( Column::names() );
-    this->m_twList->horizontalHeader()
-            ->setSectionResizeMode(QHeaderView::ResizeToContents);;
+    this->m_twList->header()->setVisible( false );
 
 
     this->listPopulate();
@@ -140,9 +138,7 @@ QString CDialogPluginsManager::currentlySelectedPluginId(void) const
     QString retVal  = "";
 
 
-    QTableWidgetItem*   p_item
-            = this->m_twList->item( this->m_twList->currentRow(),
-                                    Column::ID );
+    QTreeWidgetItem*   p_item   = this->m_twList->currentItem();
 
     if( p_item == 0 )
     {
@@ -150,7 +146,7 @@ QString CDialogPluginsManager::currentlySelectedPluginId(void) const
     }
     else
     {
-        retVal  = p_item->text();
+        retVal  = p_item->text( Column::ID );
     }
 
 
@@ -164,20 +160,38 @@ QStringList CDialogPluginsManager::listActivatedPlugins(void) const
 {
     QStringList retVal;
 
-    for(int lRow = 0 ; lRow < this->m_twList->rowCount() ; ++lRow )
+    for( int lTopLevelItemNbr = 0 ;
+         lTopLevelItemNbr < this->m_twList->topLevelItemCount() ;
+         ++lTopLevelItemNbr )
     {
-        QCheckBox   *p_cbActivated
-                = qobject_cast<QCheckBox*>(
-                    this->m_twList->cellWidget( lRow, Column::Activated ) );
+        QTreeWidgetItem*    p_itemTopLevel
+                = this->m_twList->topLevelItem( lTopLevelItemNbr );
 
-        if( p_cbActivated == nullptr )
+        if( p_itemTopLevel == nullptr )
         {
-            TRACE_ERR( "Can't get QCheckBox pointer of row %d !",
-                       lRow );
+            TRACE_ERR( "null p_itemTopLevel !" );
+            continue;
         }
-        else if( p_cbActivated->isChecked() )
+
+
+        for( int lChildNbr = 0 ;
+             lChildNbr <  p_itemTopLevel->childCount() ;
+             ++lChildNbr )
         {
-            retVal.append( this->m_twList->item( lRow, Column::ID )->text() );
+            QTreeWidgetItem*    p_itemChild
+                    = p_itemTopLevel->child( lChildNbr );
+
+            if( p_itemChild == nullptr )
+            {
+                TRACE_ERR( "null p_itemChild !" );
+                continue;
+            }
+
+
+            if( p_itemChild->checkState( Column::Activated ) == Qt::Checked )
+            {
+                retVal.append( p_itemChild->text( Column::ID ) );
+            }
         }
     }
 
@@ -198,40 +212,71 @@ void    CDialogPluginsManager::listPopulate(void)
     TRACE_DBG( "lPluginsList contains %d elements.",
                lPluginsList.count() );
 
-    this->m_twList->setRowCount( lPluginsList.size() );
-    int lRow    = 0;
+
     foreach( QString lKey, lPluginsList.keys() )
     {
         CPluginContainer    lPC     = lPluginsList.value( lKey );
 
-        QCheckBox   *p_cbActivated  = new QCheckBox( this );
-        p_cbActivated->setCheckable( true );
-        p_cbActivated->setChecked( p_pm->activatedPlugins()
-                                   .contains( lKey ) );
 
-        this->m_twList->setCellWidget( lRow,
-                                       Column::Activated,
-                                       p_cbActivated );
+        /*
+         *  Find the Top Level / "Editor" item
+         */
+        QTreeWidgetItem *p_itemTopLevel = nullptr;
+        for( int i = 0 ; i < this->m_twList->topLevelItemCount() ; ++i )
+        {
+            if(     this->m_twList->topLevelItem( i )->text(Column::Name)
+                ==  lPC.editorName() )
+            {
+                p_itemTopLevel  = this->m_twList->topLevelItem( i );
+                break;
+            }
+        }
 
-        this->m_twList->setItem( lRow, Column::ID,
-                                 new QTableWidgetItem( lKey ) );
+        /* If the editor item doesn't exist, then create it */
+        if( p_itemTopLevel == nullptr )
+        {
+            p_itemTopLevel  = new QTreeWidgetItem();
 
-        this->m_twList->setItem( lRow, Column::Name,
-                                 new QTableWidgetItem( lPC.name() ) );
-        this->m_twList->setItem( lRow, Column::Version,
-                                 new QTableWidgetItem( lPC.version() ) );
+            p_itemTopLevel->setChildIndicatorPolicy( QTreeWidgetItem::
+                                                     ShowIndicator );
+            p_itemTopLevel->setFirstColumnSpanned( true );
+            p_itemTopLevel->setText( Column::Name, lPC.editorName() );
 
-        ++lRow;
+            this->m_twList->addTopLevelItem( p_itemTopLevel );
+        }
+
+
+
+        /*
+         *  Create the plugin item
+         */
+        QTreeWidgetItem *p_itemPlugin   = new QTreeWidgetItem();
+
+        p_itemPlugin->setCheckState( Column::Activated,
+                                     p_pm->activatedPlugins().contains(lKey)
+                                        ?   Qt::Checked
+                                        :   Qt::Unchecked );
+
+        p_itemPlugin->setText( Column::ID,      lKey );
+        p_itemPlugin->setText( Column::Name,    lPC.name() );
+        p_itemPlugin->setText( Column::Version, lPC.version() );
+
+        p_itemTopLevel->addChild( p_itemPlugin );
+        p_itemTopLevel->setExpanded( true );
     }
 
-    this->m_twList->setFixedWidth(
-            this->m_twList->horizontalHeader()->length() );
+    this->m_twList->resizeColumnToContents( Column::Activated );
+    this->m_twList->resizeColumnToContents( Column::Name );
+    this->m_twList->resizeColumnToContents( Column::Version );
+    this->m_twList->setMinimumWidth( this->m_twList->header()->length() + 10 );
 }
 
 /* ########################################################################## */
 /* ########################################################################## */
 
-void    CDialogPluginsManager::on_m_twList_currentCellChanged(int,int,int,int)
+void    CDialogPluginsManager::on_m_twList_currentItemChanged(
+                QTreeWidgetItem*,
+                QTreeWidgetItem* )
 {
     this->m_gbPluginDetails->setDisplayedPlugin(
                 this->currentlySelectedPluginId() );

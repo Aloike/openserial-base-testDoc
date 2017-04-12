@@ -5,7 +5,8 @@
 
 class QHBoxLayout;
 class QPushButton;
-class QTableWidget;
+class QTreeWidget;
+class QTreeWidgetItem;
 
 class CGBPluginDetails;
 
@@ -36,7 +37,8 @@ private:
 
 
     Q_SLOT  virtual void    accept();
-    Q_SLOT  void            on_m_twList_currentCellChanged(int,int,int,int);
+    Q_SLOT  void            on_m_twList_currentItemChanged( QTreeWidgetItem*,
+                                                            QTreeWidgetItem* );
 
 
 
@@ -48,10 +50,10 @@ private:
     {
         enum    EColumnsIndex
         {
-            ID          = 0,
-            Activated,
-            Name,
+            Name        = 0,
             Version,
+            Activated,
+            ID,
 
             _ColumnsCount
         };
@@ -100,7 +102,7 @@ private:
     CGBPluginDetails*   m_gbPluginDetails;
     QPushButton*        m_pbAccept;
     QPushButton*        m_pbCancel;
-    QTableWidget*       m_twList;
+    QTreeWidget*        m_twList;
 
 
 
