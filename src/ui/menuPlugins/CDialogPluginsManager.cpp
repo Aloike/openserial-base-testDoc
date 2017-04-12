@@ -153,8 +153,6 @@ QStringList CDialogPluginsManager::listActivatedPlugins(void) const
 
 void    CDialogPluginsManager::listPopulate(void)
 {
-    this->m_twList->clear();
-
     CPluginsManagerSingleton*   p_pm
             = CPluginsManagerSingleton::getInstance();
 
@@ -165,7 +163,6 @@ void    CDialogPluginsManager::listPopulate(void)
                lPluginsList.count() );
 
     this->m_twList->setRowCount( lPluginsList.size() );
-
     int lRow    = 0;
     foreach( QString lKey, lPluginsList.keys() )
     {
@@ -173,22 +170,26 @@ void    CDialogPluginsManager::listPopulate(void)
 
         QCheckBox   *p_cbActivated  = new QCheckBox( this );
         p_cbActivated->setCheckable( true );
-        p_cbActivated->setChecked( false );
+        p_cbActivated->setChecked( p_pm->activatedPlugins()
+                                   .contains( lKey ) );
 
         this->m_twList->setCellWidget( lRow,
                                        Column::Activated,
                                        p_cbActivated );
+
+        this->m_twList->setItem( lRow, Column::ID,
+                                 new QTableWidgetItem( lKey ) );
 
         this->m_twList->setItem( lRow, Column::Name,
                                  new QTableWidgetItem( lPC.name() ) );
         this->m_twList->setItem( lRow, Column::Version,
                                  new QTableWidgetItem( lPC.version() ) );
 
-        this->m_twList->setItem( lRow, Column::ID,
-                                 new QTableWidgetItem( lKey ) );
-
         ++lRow;
     }
+
+    this->m_twList->setFixedWidth(
+            this->m_twList->horizontalHeader()->length() );
 }
 
 /* ########################################################################## */
