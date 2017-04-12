@@ -40,7 +40,7 @@ CPluginsManagerSingleton::CPluginsManagerSingleton(QObject *argParentPtr)
 /* ########################################################################## */
 /* ########################################################################## */
 
-QHash<QString, CPluginContainer>
+const QHash<QString, CPluginContainer>&
         CPluginsManagerSingleton::activatedPlugins(void) const
 {
     return this->m_activatedPlugins;

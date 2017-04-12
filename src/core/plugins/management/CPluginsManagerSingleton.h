@@ -16,7 +16,8 @@ public:
     static CPluginsManagerSingleton*    getInstance(void);
 
 
-    QHash<QString, CPluginContainer>    activatedPlugins(void) const;
+    const QHash<QString, CPluginContainer>&     activatedPlugins(void) const;
+
     void    setActivatedPlugins( const QStringList& argActivatedPluginsList);
 
 
