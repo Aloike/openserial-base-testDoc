@@ -12,7 +12,13 @@
 #include "ui/toolbars/CToolBarSerialPortStatus.h"
 
 #include "CMainWindowStatusBar.h"
+#include "menuPlugins/CMenuPlugins.h"
 
+
+/* ########################################################################## */
+/* ########################################################################## */
+
+CMainWindow*    CMainWindow::s_m_instance   = nullptr;
 
 /* ########################################################################## */
 /* ########################################################################## */
@@ -84,9 +90,7 @@ void    CMainWindow::_createUi_menus(void)
              this, SLOT(on_menuOptions_aboutToShow()) );
 
 
-    QMenu*  p_menuPlugins   = this->menuBar()->addMenu( tr("Plugins") );
-    connect( p_menuPlugins, SIGNAL(aboutToShow()),
-             this, SLOT(on_menuPlugins_aboutToShow()) );
+    this->menuBar()->addMenu( new CMenuPlugins( this ) );
 
 
     QMenu*  p_menuView  = this->menuBar()->addMenu( tr("View") );
@@ -97,6 +101,31 @@ void    CMainWindow::_createUi_menus(void)
     QMenu*  p_menuHelp   = this->menuBar()->addMenu( tr("Help") );
     connect( p_menuHelp, SIGNAL(aboutToShow()),
              this, SLOT(on_menuHelp_aboutToShow()) );
+}
+
+/* ########################################################################## */
+/* ########################################################################## */
+
+void    CMainWindow::freeInstance(void)
+{
+    if( CMainWindow::s_m_instance != nullptr )
+    {
+        delete CMainWindow::s_m_instance;
+        CMainWindow::s_m_instance   = nullptr;
+    }
+}
+
+/* ########################################################################## */
+/* ########################################################################## */
+
+CMainWindow*    CMainWindow::getInstance(void)
+{
+    if( CMainWindow::s_m_instance == nullptr )
+    {
+        CMainWindow::s_m_instance   = new CMainWindow;
+    }
+
+    return CMainWindow::s_m_instance;
 }
 
 /* ########################################################################## */
@@ -229,18 +258,6 @@ void    CMainWindow::on_menuOptions_actionConfiguration(void)
     lDialogConfig.setPointerConsole( this->m_console );
 
     lDialogConfig.exec();
-}
-
-/* ########################################################################## */
-/* ########################################################################## */
-
-void    CMainWindow::on_menuPlugins_aboutToShow(void)
-{
-    Q_ASSERT( sender()->inherits( "QMenu" ) );
-    QMenu *p_menuPlugins    = (QMenu*) sender();
-
-
-    p_menuPlugins->clear();
 }
 
 /* ########################################################################## */

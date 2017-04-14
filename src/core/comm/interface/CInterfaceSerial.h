@@ -27,7 +27,7 @@ public:
     bool    setStopBits(StopBits stopBits);
     bool    setFlowControl(FlowControl flowControl);
 
-    qint64  sendData(const QByteArray& argData);
+    Q_SLOT  qint64  sendData(const QByteArray& argData);
 
 
 

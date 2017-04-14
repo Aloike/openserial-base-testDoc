@@ -6,14 +6,24 @@
 ###############################################################################
 
 
-###############################################################################
-# Definition of destination directories
+# ##############################################################################
+##  Global definitions about this project
+# ##############################################################################
+TARGET  = openserial
+TEMPLATE = app
 
-#DESTDIR = $$PWD/Run
-#DESTDIR_MAIN    = $$PWD/out                 # destdir for the main application
-#DESTDIR_PLUGINS = $$DESTDIR_MAIN/plugins    # destdir for plugins
 
-#TARGET_MAINAPP_NAME = sercomm
+
+# ##############################################################################
+## Declaration of Qt modules used in the project
+# ##############################################################################
+QT  +=  core
+QT  +=  gui
+QT  +=  serialport
+#QT  +=  xml
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 
 
 # ##############################################################################
@@ -22,7 +32,7 @@
 
 ##  @brief  The DESTDIR variable defines where the generated target will be made
 ##          available.
-DESTDIR = out
+DESTDIR = $$PWD/out
 
 
 ##  This section defines the prefix of build directories depending on the build

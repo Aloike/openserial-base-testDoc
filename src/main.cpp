@@ -1,7 +1,39 @@
 #include <QApplication>
+#include <QDir>
+#include <QStandardPaths>
 
 #include "Version.h"
+#include "core/plugins/management/CPluginsManagerSingleton.h"
 #include "ui/CMainWindow.h"
+
+/* ########################################################################## */
+/* ########################################################################## */
+
+static const QString    C_DIRNAME_PLUGINS( "openserial-plugins" );
+
+/* ########################################################################## */
+/* ########################################################################## */
+
+void    init_plugins(void)
+{
+    /* Search plugins in the application's binary directory */
+    CPluginsManagerSingleton::getInstance()
+            ->addSearchPath( QCoreApplication::applicationDirPath()
+                             + QDir::separator() + C_DIRNAME_PLUGINS
+                             + QDir::separator() );
+
+    /* Search plugins in the working directory */
+    CPluginsManagerSingleton::getInstance()
+            ->addSearchPath( QDir::currentPath()
+                             + QDir::separator() + C_DIRNAME_PLUGINS
+                             + QDir::separator() );
+
+    CPluginsManagerSingleton::getInstance()
+            ->addSearchPath( QStandardPaths::standardLocations(
+                                 QStandardPaths::AppDataLocation ).at( 0 )
+                             + QDir::separator() + C_DIRNAME_PLUGINS
+                             + QDir::separator() );
+}
 
 /* ########################################################################## */
 /* ########################################################################## */
@@ -38,11 +70,17 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     init_qCoreApplication();
+    init_plugins();
 
-    CMainWindow w;
-    w.show();
 
-    return a.exec();
+    CMainWindow::getInstance()->show();
+
+    int retVal  = a.exec();
+
+    CMainWindow::freeInstance();
+
+
+    return retVal;
 }
 
 /* ########################################################################## */
