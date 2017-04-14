@@ -4,5 +4,6 @@
         <file alias="aboutQt">icons/qt_icon_about.png</file>
         <file alias="quit">icons/exit1.png</file>
         <file alias="refresh">icons/refresh1.png</file>
+        <file alias="config">icons/gear1.png</file>
     </qresource>
 </RCC>

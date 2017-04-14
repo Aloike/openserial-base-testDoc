@@ -49,7 +49,10 @@ SOURCES +=\
     src/ui/common/CLed.cpp \
     src/ui/toolbars/CToolBarSerialPortConfig.cpp \
     src/ui/toolbars/CToolBarSerialPortStatus.cpp \
-    src/ui/toolbars/CToolbarAbstract.cpp
+    src/ui/toolbars/CToolbarAbstract.cpp \
+    src/ui/console/CConsole.cpp \
+    src/ui/configuration/CDialogConfig.cpp \
+    src/ui/configuration/CGroupBoxConfigConsole.cpp
 
 
 
@@ -62,7 +65,10 @@ HEADERS  += \
     src/ui/common/CLed.h \
     src/ui/toolbars/CToolBarSerialPortConfig.h \
     src/ui/toolbars/CToolBarSerialPortStatus.h \
-    src/ui/toolbars/CToolbarAbstract.h
+    src/ui/toolbars/CToolbarAbstract.h \
+    src/ui/console/CConsole.h \
+    src/ui/configuration/CDialogConfig.h \
+    src/ui/configuration/CGroupBoxConfigConsole.h
 
 
 

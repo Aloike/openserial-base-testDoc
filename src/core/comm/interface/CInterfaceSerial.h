@@ -27,6 +27,8 @@ public:
     bool    setStopBits(StopBits stopBits);
     bool    setFlowControl(FlowControl flowControl);
 
+    qint64  sendData(const QByteArray& argData);
+
 
 
 protected:
@@ -35,10 +37,18 @@ protected:
 
 
 
+private slots:
+
+    void    on_this_readyRead(void);
+
+
+
 signals:
 
     void    connectStateChanged(const bool& argIsOpen);
     void    errorOccured(const QString& argErrorString);
+    void    dataReceived(const QByteArray& argReceivedData);
+    void    dataSent(const QByteArray& argEmittedData);
 
 
 
