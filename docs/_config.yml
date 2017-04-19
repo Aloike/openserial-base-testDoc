@@ -7,6 +7,12 @@ theme:
 include: [ "_docs", "_pages" ]
 relative_permalinks: false
 
+plantuml:
+  plantuml_jar: _bin/plantuml.jar     # path to plantuml jar
+  tmp_folder: _plantuml               # tmp folder to put generated image files
+  dot_exe: dot                        # [optional] path to Graphviz dot execution
+  background_color: white             # [optional] UML image background color
+
 defaults:
   -
     scope:
