@@ -30,7 +30,7 @@ void    init_plugins(void)
 
     CPluginsManagerSingleton::getInstance()
             ->addSearchPath( QStandardPaths::standardLocations(
-                                 QStandardPaths::AppDataLocation ).at( 0 )
+                                 QStandardPaths::DataLocation ).at( 0 )
                              + QDir::separator() + C_DIRNAME_PLUGINS
                              + QDir::separator() );
 }

@@ -3,6 +3,8 @@
 
 #include <QSerialPort>
 
+#include <QStringList>
+
 
 class CInterfaceSerial : public QSerialPort
 {

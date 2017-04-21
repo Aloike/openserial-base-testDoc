@@ -9,7 +9,7 @@
                 __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__ );
 
 #define TRACE_INFO_BASE( format, ... )                                         \
-        qInfo( "INF\t %s +%d (%s)\t ==> " format,                              \
+        qDebug( "INF\t %s +%d (%s)\t ==> " format,                             \
                __FILE__, __LINE__, __FUNCTION__, ##__VA_ARGS__ );
 
 #define TRACE_WARN_BASE( format, ... )                                          \
