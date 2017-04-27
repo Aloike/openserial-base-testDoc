@@ -95,6 +95,7 @@ BIN_CMD=cmd.exe
 contains( CONFIG, APPVEYOR ) {
     message( "Using AppVeyor specific configuration." );
     BIN_GIT=git
+    CMD_TIMESTAMP=$\(shell date +%Y%m%d%H%M%S\)
 } else {
     BIN_GIT="C:\Program Files\Git\bin\git.exe"
 }
@@ -136,7 +137,7 @@ target_gitrev.commands  +=  (echo \"const QString VERSION_CVS = \"\'\"\'\"$(shel
 #target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
 #target_gitrev.commands  +=  export BUILD_TIME=`cmd.exe /v:on /c \"set lTime=%time: =0% && echo !lTime:~0,2!!lTime:~3,2!!lTime:~6,2!\"`
 target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
-target_gitrev.commands  +=  (echo \"const QString VERSION_BUILD = \"\'\"\'\"$\(shell date +%Y%m%d%H%M%S\) $$system(${BIN_CMD} /v:on /c \"set lTime=%time: =0% && echo !lTime:~0,2!!lTime:~3,2!!lTime:~6,2!\")\"\'\"\'\";\">>$$VERSION_OUTPUT_FILE)
+target_gitrev.commands  +=  (echo \"const QString VERSION_BUILD = \"\'\"\'\"$${CMD_TIMESTAMP}\"\'\"\'\";\">>$$VERSION_OUTPUT_FILE)
 
 
 target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
