@@ -136,14 +136,16 @@ on_success:
 
 # on build failure
 on_failure:
-#  - type src\Version.*
+  - IF EXIST "Makefile*" type "Makefile*"
+  - IF EXIST "src\Makefile*" type "src\Makefile*"
+  - IF EXIST "src\Version.*" type src\Version.*
   - IF EXIST "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd" type "C:\Program Files\Microsoft SDKs\Windows\v7.1\Bin\SetEnv.cmd"
   - IF EXIST "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" type "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
   - IF EXIST "C:\Program Files (x86)\MSBuild\14.0" echo "vs2015 img detected"
   - IF EXIST "C:\Program Files (x86)\MSBuild\14.0\Bin" dir "C:\Program Files (x86)\MSBuild\14.0\Bin"
   - cd C:
-  - dir cl.exe /s
 
 # after build failure or success
 on_finish:
+  - type src\Version.*
 

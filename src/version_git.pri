@@ -88,35 +88,62 @@ QMAKE_EXTRA_TARGETS += target_gitrev
 PRE_TARGETDEPS      += target_gitrev
 
 }else:win32{
+message( "Processing version_git.pri for win32" );
+
+BIN_CMD=cmd.exe
+
+contains( CONFIG, APPVEYOR ) {
+    message( "Using AppVeyor specific configuration." );
+    BIN_GIT=git
+} else {
+    BIN_GIT="C:\Program Files\Git\bin\git.exe"
+}
 
 target_gitrev.target    =   target_gitrev
 
 # To erase the old version file
-target_gitrev.commands  =   (echo "/* Auto-generated file ! */" > $$VERSION_OUTPUT_FILE )
-target_gitrev.commands  +=  &&  (echo "$${LITERAL_HASH}ifndef VERSION_H" >> $$VERSION_OUTPUT_FILE )
-target_gitrev.commands  +=  &&  (echo "$${LITERAL_HASH}define VERSION_H" >> $$VERSION_OUTPUT_FILE )
-target_gitrev.commands  +=  &&  (echo.>>$$VERSION_OUTPUT_FILE)
-target_gitrev.commands  +=  &&  (echo "$${LITERAL_HASH}include ^<QString^>">>$$VERSION_OUTPUT_FILE)
-target_gitrev.commands  +=  &&  (echo. >>$$VERSION_OUTPUT_FILE)
+target_gitrev.commands  =   (echo \"/* Auto-generated file ! */\" > $$VERSION_OUTPUT_FILE )
+target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
+target_gitrev.commands  +=  (echo \"$${LITERAL_HASH}ifndef VERSION_H\" >> $$VERSION_OUTPUT_FILE )
+target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
+target_gitrev.commands  +=  (echo \"$${LITERAL_HASH}define VERSION_H\" >> $$VERSION_OUTPUT_FILE )
+target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
+target_gitrev.commands  +=  (echo \"\">>$$VERSION_OUTPUT_FILE)
+target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
+target_gitrev.commands  +=  (echo \"$${LITERAL_HASH}include <QString>\" >>$$VERSION_OUTPUT_FILE)
+target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
+target_gitrev.commands  +=  (echo \"\" >>$$VERSION_OUTPUT_FILE)
 
 # The major version number
-target_gitrev.commands  +=  &&  (echo "const QString VERSION_MAJOR = \"$$VER_MAJ\";">>$$VERSION_OUTPUT_FILE)
+target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
+target_gitrev.commands  +=  (echo \"const QString VERSION_MAJOR = \"\'\"\'\"$$VER_MAJ\"\'\"\'\";\">>$$VERSION_OUTPUT_FILE)
 
 ## The minor version number
-target_gitrev.commands  +=  &&  (echo "const QString VERSION_MINOR = \"$$VER_MIN\";">>$$VERSION_OUTPUT_FILE)
+target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
+target_gitrev.commands  +=  (echo \"const QString VERSION_MINOR = \"\'\"\'\"$$VER_MIN\"\'\"\'\";\">>$$VERSION_OUTPUT_FILE)
 
 ## The patch version number
-target_gitrev.commands  +=  &&  (echo "const QString VERSION_PATCH = \"$$VER_PAT\";">>$$VERSION_OUTPUT_FILE)
+target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
+target_gitrev.commands  +=  (echo \"const QString VERSION_PATCH = \"\'\"\'\"$$VER_PAT\"\'\"\'\";\">>$$VERSION_OUTPUT_FILE)
 
 ## The GIT version
-target_gitrev.commands  +=  &&  (echo "const QString VERSION_CVS = \"$(shell git --git-dir $$PWD/../.git --work-tree $$PWD../ describe --long --tags --always --dirty)\";">>$$VERSION_OUTPUT_FILE)
+target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
+target_gitrev.commands  +=  (echo \"const QString VERSION_CVS = \"\'\"\'\"$(shell $${BIN_GIT} --git-dir $$PWD/../.git --work-tree $$PWD../ describe --long --tags --always --dirty)\"\'\"\'\";\">>$$VERSION_OUTPUT_FILE)
 
 ## The Build date
-target_gitrev.commands  +=  &&  (echo "const QString VERSION_BUILD = \"$(shell echo %date:~6,4%%date:~3,2%%date:~0,2%)$(shell cmd /v:on /c \"set lTime=%time: =0% && echo !lTime:~0,2!!lTime:~3,2!!lTime:~6,2!\")\";">>$$VERSION_OUTPUT_FILE)
+target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
+target_gitrev.commands  +=  export BUILD_DATE=`echo.exe %date:~6,4%%date:~3,2%%date:~0,2%`
+target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
+target_gitrev.commands  +=  export BUILD_TIME=`cmd.exe /v:on /c \"set lTime=%time: =0% && echo !lTime:~0,2!!lTime:~3,2!!lTime:~6,2!\"`
+target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
+target_gitrev.commands  +=  (echo \"const QString VERSION_BUILD = \"\'\"\'\"$\(shell date +%Y%m%d%H%M%S\) $$system(${BIN_CMD} /v:on /c \"set lTime=%time: =0% && echo !lTime:~0,2!!lTime:~3,2!!lTime:~6,2!\")\"\'\"\'\";\">>$$VERSION_OUTPUT_FILE)
 
 
-target_gitrev.commands  +=  &&  (echo. >>$$VERSION_OUTPUT_FILE)
-target_gitrev.commands  +=  &&  (echo "$${LITERAL_HASH}endif /*^< VERSION_H */" >> $$VERSION_OUTPUT_FILE )
+target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
+target_gitrev.commands  +=  (echo \"\" >>$$VERSION_OUTPUT_FILE)
+target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
+target_gitrev.commands  +=  (echo \"$${LITERAL_HASH}endif /*^< VERSION_H */\" >> $$VERSION_OUTPUT_FILE )
+
 
 # Add the created target to the qmake ones.
 QMAKE_EXTRA_TARGETS += target_gitrev
