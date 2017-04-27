@@ -131,10 +131,10 @@ target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
 target_gitrev.commands  +=  (echo \"const QString VERSION_CVS = \"\'\"\'\"$(shell $${BIN_GIT} --git-dir $$PWD/../.git --work-tree $$PWD../ describe --long --tags --always --dirty)\"\'\"\'\";\">>$$VERSION_OUTPUT_FILE)
 
 ## The Build date
-target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
-target_gitrev.commands  +=  export BUILD_DATE=`echo.exe %date:~6,4%%date:~3,2%%date:~0,2%`
-target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
-target_gitrev.commands  +=  export BUILD_TIME=`cmd.exe /v:on /c \"set lTime=%time: =0% && echo !lTime:~0,2!!lTime:~3,2!!lTime:~6,2!\"`
+#target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
+#target_gitrev.commands  +=  export BUILD_DATE=`echo.exe %date:~6,4%%date:~3,2%%date:~0,2%`
+#target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
+#target_gitrev.commands  +=  export BUILD_TIME=`cmd.exe /v:on /c \"set lTime=%time: =0% && echo !lTime:~0,2!!lTime:~3,2!!lTime:~6,2!\"`
 target_gitrev.commands  +=  $$escape_expand(\\n\\t) #to go to next makefile line
 target_gitrev.commands  +=  (echo \"const QString VERSION_BUILD = \"\'\"\'\"$\(shell date +%Y%m%d%H%M%S\) $$system(${BIN_CMD} /v:on /c \"set lTime=%time: =0% && echo !lTime:~0,2!!lTime:~3,2!!lTime:~6,2!\")\"\'\"\'\";\">>$$VERSION_OUTPUT_FILE)
 
