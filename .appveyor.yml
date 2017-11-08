@@ -146,6 +146,6 @@ on_failure:
   - cd C:
 
 # after build failure or success
-on_finish:
-  - type src\Version.*
+# on_finish:
+#   - type src\Version.*
 
