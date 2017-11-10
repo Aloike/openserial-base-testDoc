@@ -62,7 +62,7 @@ These lines have been added to `_config.yml` :
 
 # Example :
 
-![Example 1](http://uml.mvnsearch.org/github/Aloike/openserial-base-testDoc/master/docs/_docs/memos/example1.puml)
+![Example 1](http://uml.mvnsearch.org/github/Aloike/openserial-base-testDoc/blob/master/docs/_docs/memos/example1.puml)
 
 
 git-subtree-docs_plugins_jekyll-plantuml.md
