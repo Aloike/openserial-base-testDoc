@@ -1,0 +1,40 @@
+title: OpenSerial-Base
+description: The Main Application
+show_downloads: true
+# google_analytics:
+theme: 
+
+include: [ "_docs", "_pages" ]
+relative_permalinks: false
+
+plantuml:
+  plantuml_jar: _bin/plantuml.jar     # path to plantuml jar
+  tmp_folder: _plantuml               # tmp folder to put generated image files
+  dot_exe: dot                        # [optional] path to Graphviz dot execution
+  background_color: white             # [optional] UML image background color
+
+defaults:
+  -
+    scope:
+      path: "_docs"
+      type: "docs"
+    values:
+      layout: "default"
+  -
+    scope:
+      path: "_pages"
+      type: "pages"
+    values:
+      layout: "default"
+  -
+    scope:
+      path: "_posts"
+      type: "posts"
+    values:
+      layout: "default"
+
+
+collections:
+  posts:
+    permalink: /news/:year/:month/:day/:title/
+    output: true
