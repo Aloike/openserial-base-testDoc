@@ -62,10 +62,7 @@ These lines have been added to `_config.yml` :
 
 # Example :
 
-{% plantuml %}
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+![Example 1](http://uml.mvnsearch.org/github/Aloike/openserial-base-testDoc/master/docs/_docs/memos/example1.puml)
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
-{% endplantuml %}
+
+git-subtree-docs_plugins_jekyll-plantuml.md
