@@ -28,7 +28,7 @@ management, the configuration file management, a terminal-like interface, and
 the plugins management mechanism.
 
 <p align="center">
-{% plantuml %}
+<!--{% plantuml %}
 digraph tree {
     nodesep=.1;
     rankdir=LR;
@@ -69,7 +69,7 @@ digraph tree {
         node_coreApp->pnt_ifaceSerialPort->pnt_gui->pnt_configManagement->pnt_pluginsManagement[arrowhead=none];
     }
 }
-{% endplantuml %}
+{% endplantuml %} -->
 </p>
 
 
